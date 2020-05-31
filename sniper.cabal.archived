@@ -1,11 +1,5 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
---
--- see: https://github.com/sol/hpack
---
--- hash: 429630e019b9983c72831d78d62fd22703a1b107a0db8a49bc2e89bcccef25bf
-
 name:           sniper
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/lumapat/sniper#readme>
@@ -19,6 +13,7 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
+    ChangeLog.md
 
 source-repository head
   type: git
