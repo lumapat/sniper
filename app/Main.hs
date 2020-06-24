@@ -1,6 +1,5 @@
 {-# LANGUAGE                  DataKinds #-}
 {-# LANGUAGE              DeriveGeneric #-}
--- {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE              TypeOperators #-}
 
 module Main where
@@ -19,7 +18,8 @@ import Network.Wai.Handler.Warp
 
 -- High level API description
 type Api = "targets" :> Get '[JSON] [Target]
-      :<|> "targets" :> ReqBody '[JSON] Target :> Post '[JSON] Int64
+      :<|> "targets" :> "assign" :> ReqBody '[JSON] Target :> Post '[JSON] Int64
+      :<|> "targets" :> "execute" :> QueryParams "targets" String :> Post '[JSON] Int64
 
 -- TODO: Explain what it means to do this?!?!?
 apiProxy :: Proxy Api
@@ -41,12 +41,17 @@ dummyTarget = Target { hostUrl = "www.example.com"
 
 server :: Server Api
 server = getTargets :<|>
-         createTarget where
+         assignTarget :<|>
+         executeTargets where
              getTargets :: Handler [Target]
              getTargets = return $ [dummyTarget]
 
-             createTarget :: Target -> Handler Int64
-             createTarget _ = return $ fromInteger 200
+             assignTarget :: Target -> Handler Int64
+             assignTarget _ = return $ fromInteger 200
+
+             executeTargets :: [String] -> Handler Int64
+             executeTargets [] = return $ fromInteger 200
+             executeTargets _  = return $ fromInteger 501
 
 app :: Application
 app = serve apiProxy server
