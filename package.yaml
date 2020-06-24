@@ -33,7 +33,12 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - aeson
+    - servant
+    - servant-server
     - sniper
+    - wai
+    - warp
 
 tests:
   sniper-test:
